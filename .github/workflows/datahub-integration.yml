@@ -11,7 +11,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          # DataHub's current quickstart CLI documents and actively tests Python 3.10–3.11.
+          python-version: "3.11"
       - run: python -m pip install -e '.[mcp]' acryl-datahub
       - run: datahub docker quickstart --accept-version-default
       - run: datahub init --username datahub --password datahub
