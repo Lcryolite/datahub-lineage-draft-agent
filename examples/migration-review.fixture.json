@@ -1,4 +1,7 @@
 {
+  "context_sources": [
+    "DataHub GraphQL fallback: dataset(urn:)"
+  ],
   "dataset_urn": "urn:li:dataset:(urn:li:dataPlatform:postgres,orders,PROD)",
   "rationale": "Draft uses 1 DataHub schema fields. Lineage evidence: urn:li:dataset:(urn:li:dataPlatform:postgres,customers,PROD)",
   "reviewed": false,

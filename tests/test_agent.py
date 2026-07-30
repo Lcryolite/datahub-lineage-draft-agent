@@ -40,6 +40,10 @@ class AgentTests(unittest.TestCase):
         packet = MigrationAgent.review_packet(MigrationAgent(client).draft(URN))
         self.assertFalse(json.loads(packet)["reviewed"])
         self.assertIn("REVIEW REQUIRED", json.loads(packet)["sql"])
+        self.assertEqual(
+            ["DataHub GraphQL fallback: dataset(urn:)"],
+            json.loads(packet)["context_sources"],
+        )
 
     def test_mcp_path_calls_official_context_tools(self):
         calls = []
@@ -54,6 +58,14 @@ class AgentTests(unittest.TestCase):
         self.assertEqual([name for name, _ in calls], ["get_entities", "list_schema_fields", "get_lineage"])
         self.assertIn("order_id", draft.sql)
         self.assertIn("customers", draft.rationale)
+        self.assertEqual(
+            (
+                "DataHub MCP: get_entities",
+                "DataHub MCP: list_schema_fields",
+                "DataHub MCP: get_lineage",
+            ),
+            draft.context_sources,
+        )
 
     def test_smoke_selector_requires_a_real_dataset_urn(self):
         self.assertEqual(URN, first_dataset_urn({"searchResults": [{"entity": {"urn": URN}}]}))

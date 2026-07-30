@@ -34,9 +34,11 @@ with the draft instead of quietly replacing it with assumptions.
 Lineage Draft Agent reads a selected dataset's properties, schema fields and
 upstream relationships through DataHub's official MCP tools. It creates a
 dbt-style SQL draft and a JSON review packet that preserve the DataHub dataset
-URN and every upstream URN used as context. The result is deliberately
-`REVIEW REQUIRED`: it is a code artifact ready for a data-team PR, not an
-unobserved production migration.
+URN, every upstream URN used as context, and the exact context route. On the
+primary path, that route names `get_entities`, `list_schema_fields`, and
+`get_lineage`; a GraphQL fallback is explicitly labelled rather than being
+presented as MCP. The result is deliberately `REVIEW REQUIRED`: it is a code
+artifact ready for a data-team PR, not an unobserved production migration.
 
 ## How we built it
 

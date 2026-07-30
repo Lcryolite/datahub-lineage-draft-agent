@@ -43,6 +43,11 @@ class DataHubGraphQLClient:
         self.headers = {"Authorization": f"Bearer {token}"} if token else {}
         self._transport = transport
 
+    @property
+    def evidence_sources(self) -> tuple[str, ...]:
+        """Expose the fallback route used to build a review packet."""
+        return ("DataHub GraphQL fallback: dataset(urn:)",)
+
     def dataset_context(self, urn: str) -> DatasetContext:
         payload = self._transport(self.endpoint, self.headers, {"query": DATASET_CONTEXT_QUERY, "variables": {"urn": urn}})
         if payload.get("errors"):

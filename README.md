@@ -4,7 +4,7 @@ An evidence-first migration-draft agent for the [DataHub Agent Hackathon](https:
 
 ## Why it is useful
 
-Data teams often ask an AI assistant to migrate a dataset without providing the actual columns or upstream dependencies. This project makes that context explicit: every output embeds the DataHub dataset URN and records the upstream URNs it used. A reviewer can trace an output back to catalog evidence before approving it.
+Data teams often ask an AI assistant to migrate a dataset without providing the actual columns or upstream dependencies. This project makes that context explicit: every output embeds the DataHub dataset URN and records the upstream URNs it used. A reviewer can trace an output back to catalog evidence before approving it. Each review packet also records the exact context route: the three official MCP tool names on the primary path, or the clearly labelled GraphQL fallback.
 
 ## Run against a real DataHub instance
 

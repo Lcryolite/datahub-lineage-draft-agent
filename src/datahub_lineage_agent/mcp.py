@@ -19,6 +19,15 @@ class DataHubMCPContextClient:
     def __init__(self, call_tool: ToolCall):
         self._call_tool = call_tool
 
+    @property
+    def evidence_sources(self) -> tuple[str, ...]:
+        """List the official DataHub MCP tools used for every context read."""
+        return (
+            "DataHub MCP: get_entities",
+            "DataHub MCP: list_schema_fields",
+            "DataHub MCP: get_lineage",
+        )
+
     def dataset_context(self, urn: str) -> DatasetContext:
         entity = self._call_tool("get_entities", {"urns": urn})
         fields_result = self._call_tool("list_schema_fields", {"urn": urn, "limit": 100})

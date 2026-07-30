@@ -14,9 +14,10 @@ class MigrationDraft:
     sql: str
     rationale: str
     upstream_urns: tuple[str, ...]
+    context_sources: tuple[str, ...]
     reviewed: bool = False
     def as_dict(self) -> dict[str, object]:
-        return {"dataset_urn": self.dataset_urn, "sql": self.sql, "rationale": self.rationale, "upstream_urns": list(self.upstream_urns), "reviewed": self.reviewed}
+        return {"dataset_urn": self.dataset_urn, "sql": self.sql, "rationale": self.rationale, "upstream_urns": list(self.upstream_urns), "context_sources": list(self.context_sources), "reviewed": self.reviewed}
 
 class ContextReader(Protocol):
     def dataset_context(self, urn: str) -> DatasetContext: ...
@@ -40,7 +41,8 @@ class MigrationAgent:
         if self.planner:
             planned = self.planner.plan(context)
             sql, rationale = planned["sql"], f"{planned['rationale']} Lineage evidence: {sources}"
-        return MigrationDraft(context.urn, sql, rationale, context.upstream_urns)
+        sources = tuple(getattr(self.catalog, "evidence_sources", ("DataHub context reader",)))
+        return MigrationDraft(context.urn, sql, rationale, context.upstream_urns, sources)
 
     @staticmethod
     def review_packet(draft: MigrationDraft) -> str:
