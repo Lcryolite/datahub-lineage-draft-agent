@@ -54,6 +54,16 @@ PYTHONPATH=src python3 -m unittest discover -s tests -v
 
 The tests run a fake GraphQL transport that asserts the exact authenticated DataHub request and verifies that the generated draft includes catalog schema and lineage. The sample response is in `examples/` for offline inspection.
 
+For a safe recording rehearsal, run the explicitly labeled offline fixture
+demo. It writes a review packet to `examples/` and makes no network request:
+
+```bash
+PYTHONPATH=src python3 scripts/offline_demo.py
+```
+
+Use the fixture only to show the review-packet format. The separately linked
+GitHub Actions integration run is the evidence for the real DataHub MCP path.
+
 ## Honest limitations
 
 This is a working read-path integration, not a claim that a public DataHub instance, a warehouse, or a production migration exists. The generated SQL is intentionally marked `REVIEW REQUIRED`; a human must approve and execute any data change.

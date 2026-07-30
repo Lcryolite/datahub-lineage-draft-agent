@@ -10,7 +10,11 @@ Data migration assistants often generate SQL with no catalog evidence. That make
 
 Show `src/datahub_lineage_agent/mcp.py`. Explain that the agent starts DataHub's official MCP server and calls `get_entities`, `list_schema_fields`, and `get_lineage`; it fails visibly rather than silently guessing. The GraphQL client remains a lightweight fallback, but the MCP path is the event path.
 
-Run the test suite. The fixture asserts the GraphQL endpoint, bearer-token header, and requested dataset URN. It contains an `orders` dataset with two schema fields and an upstream `customers` dataset.
+Run `PYTHONPATH=src .venv/bin/python scripts/offline_demo.py`, then open
+`examples/migration-review.fixture.json`. Label both on screen **OFFLINE
+FIXTURE**, not a live catalog. The fixture asserts the GraphQL endpoint,
+bearer-token header, and requested dataset URN. It contains an `orders` dataset
+with one schema field and an upstream `customers` dataset.
 
 ## 1:05–1:45 — Provenance-linked output
 

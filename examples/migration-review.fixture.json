@@ -1,0 +1,9 @@
+{
+  "dataset_urn": "urn:li:dataset:(urn:li:dataPlatform:postgres,orders,PROD)",
+  "rationale": "Draft uses 1 DataHub schema fields. Lineage evidence: urn:li:dataset:(urn:li:dataPlatform:postgres,customers,PROD)",
+  "reviewed": false,
+  "sql": "-- REVIEW REQUIRED: generated from DataHub metadata for urn:li:dataset:(urn:li:dataPlatform:postgres,orders,PROD)\nselect\n  order_id as order_id\nfrom {{ source('raw', 'orders') }}",
+  "upstream_urns": [
+    "urn:li:dataset:(urn:li:dataPlatform:postgres,customers,PROD)"
+  ]
+}

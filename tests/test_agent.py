@@ -9,6 +9,7 @@ from datahub_lineage_agent import DataHubGraphQLClient, DataHubMCPContextClient,
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from mcp_smoke import first_dataset_urn, wait_for_dataset_urn
+from offline_demo import create_fixture_review
 
 URN = "urn:li:dataset:(urn:li:dataPlatform:postgres,orders,PROD)"
 
@@ -73,6 +74,12 @@ class AgentTests(unittest.TestCase):
             self.assertEqual(URN, wait_for_dataset_urn(Adapter(), attempts=2, interval_seconds=0))
         self.assertEqual(["search", "search"], [name for name, _ in calls])
         sleep.assert_called_once_with(0)
+
+    def test_offline_demo_is_explicitly_review_only(self):
+        packet = create_fixture_review()
+        self.assertEqual(URN, packet["dataset_urn"])
+        self.assertFalse(packet["reviewed"])
+        self.assertIn("-- REVIEW REQUIRED", packet["sql"])
 
     def test_mcp_server_uses_module_when_uvx_is_unavailable(self):
         with patch("datahub_lineage_agent.mcp.shutil.which", return_value=None):
