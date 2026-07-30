@@ -8,7 +8,7 @@ import sys
 from datahub_lineage_agent import DataHubGraphQLClient, DataHubMCPContextClient, MigrationAgent, StdioDataHubMCP
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from mcp_smoke import first_dataset_urn
+from mcp_smoke import first_dataset_urn, wait_for_dataset_urn
 
 URN = "urn:li:dataset:(urn:li:dataPlatform:postgres,orders,PROD)"
 
@@ -56,8 +56,23 @@ class AgentTests(unittest.TestCase):
 
     def test_smoke_selector_requires_a_real_dataset_urn(self):
         self.assertEqual(URN, first_dataset_urn({"searchResults": [{"entity": {"urn": URN}}]}))
+        self.assertEqual(URN, first_dataset_urn({"search_results": [{"entity": {"urn": URN}}]}))
         with self.assertRaises(RuntimeError):
             first_dataset_urn({"searchResults": []})
+
+    def test_smoke_retries_until_the_search_index_has_a_dataset(self):
+        responses = iter([{"searchResults": []}, {"searchResults": [{"entity": {"urn": URN}}]}])
+        calls = []
+
+        class Adapter:
+            def call_tool(self, name, arguments):
+                calls.append((name, arguments))
+                return next(responses)
+
+        with patch("mcp_smoke.time.sleep") as sleep:
+            self.assertEqual(URN, wait_for_dataset_urn(Adapter(), attempts=2, interval_seconds=0))
+        self.assertEqual(["search", "search"], [name for name, _ in calls])
+        sleep.assert_called_once_with(0)
 
     def test_mcp_server_uses_module_when_uvx_is_unavailable(self):
         with patch("datahub_lineage_agent.mcp.shutil.which", return_value=None):
