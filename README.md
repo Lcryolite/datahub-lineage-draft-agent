@@ -1,6 +1,6 @@
 # Lineage Draft Agent
 
-An evidence-first migration-draft agent for the [DataHub Agent Hackathon](https://datahub.devpost.com/). It reads a dataset's schema and upstream lineage from DataHub's GraphQL API, then creates a dbt-style SQL **draft** plus a JSON review packet. It never connects to a warehouse and never executes a migration.
+An evidence-first migration-draft agent for the [DataHub Agent Hackathon](https://datahub.devpost.com/). Its primary path reads a dataset's schema and upstream lineage through DataHub's official MCP tools, then creates a dbt-style SQL **draft** plus a JSON review packet. A constrained GraphQL reader is available only as an optional fallback. It never connects to a warehouse and never executes a migration.
 
 ## Why it is useful
 
