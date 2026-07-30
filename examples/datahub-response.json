@@ -1,0 +1,10 @@
+{
+  "data": {
+    "dataset": {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:postgres,orders,PROD)",
+      "properties": {"name": "orders", "description": "Customer orders"},
+      "schemaMetadata": {"fields": [{"fieldPath": "order_id", "nativeDataType": "uuid"}]},
+      "upstream": {"relationships": [{"entity": {"urn": "urn:li:dataset:(urn:li:dataPlatform:postgres,customers,PROD)"}}]}
+    }
+  }
+}
