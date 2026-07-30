@@ -2,5 +2,6 @@
 
 from .agent import MigrationAgent
 from .datahub import DataHubGraphQLClient
+from .mcp import DataHubMCPContextClient, StdioDataHubMCP
 
-__all__ = ["DataHubGraphQLClient", "MigrationAgent"]
+__all__ = ["DataHubGraphQLClient", "DataHubMCPContextClient", "StdioDataHubMCP", "MigrationAgent"]

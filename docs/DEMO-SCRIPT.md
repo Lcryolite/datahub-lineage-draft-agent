@@ -8,7 +8,7 @@ Data migration assistants often generate SQL with no catalog evidence. That make
 
 ## 0:25–1:05 — DataHub context read
 
-Show `src/datahub_lineage_agent/datahub.py` and the documented `dataset(urn:)` GraphQL query. Explain that the agent asks DataHub for one dataset's properties, `schemaMetadata.fields`, and `upstream.relationships`; it fails visibly on GraphQL errors rather than silently guessing.
+Show `src/datahub_lineage_agent/mcp.py`. Explain that the agent starts DataHub's official MCP server and calls `get_entities`, `list_schema_fields`, and `get_lineage`; it fails visibly rather than silently guessing. The GraphQL client remains a lightweight fallback, but the MCP path is the event path.
 
 Run the test suite. The fixture asserts the GraphQL endpoint, bearer-token header, and requested dataset URN. It contains an `orders` dataset with two schema fields and an upstream `customers` dataset.
 

@@ -1,7 +1,7 @@
 import json
 import unittest
 
-from datahub_lineage_agent import DataHubGraphQLClient, MigrationAgent
+from datahub_lineage_agent import DataHubGraphQLClient, DataHubMCPContextClient, MigrationAgent
 
 URN = "urn:li:dataset:(urn:li:dataPlatform:postgres,orders,PROD)"
 
@@ -32,3 +32,17 @@ class AgentTests(unittest.TestCase):
         packet = MigrationAgent.review_packet(MigrationAgent(client).draft(URN))
         self.assertFalse(json.loads(packet)["reviewed"])
         self.assertIn("REVIEW REQUIRED", json.loads(packet)["sql"])
+
+    def test_mcp_path_calls_official_context_tools(self):
+        calls = []
+        def mcp_tool(name, arguments):
+            calls.append((name, arguments))
+            if name == "get_entities":
+                return {"urn": URN, "properties": {"name": "orders", "description": "Customer orders"}}
+            if name == "list_schema_fields":
+                return {"fields": [{"fieldPath": "order_id", "nativeDataType": "uuid", "description": "Primary key"}]}
+            return {"upstreams": {"searchResults": [{"entity": {"urn": "urn:li:dataset:(urn:li:dataPlatform:postgres,customers,PROD)"}}]}}
+        draft = MigrationAgent(DataHubMCPContextClient(mcp_tool)).draft(URN)
+        self.assertEqual([name for name, _ in calls], ["get_entities", "list_schema_fields", "get_lineage"])
+        self.assertIn("order_id", draft.sql)
+        self.assertIn("customers", draft.rationale)

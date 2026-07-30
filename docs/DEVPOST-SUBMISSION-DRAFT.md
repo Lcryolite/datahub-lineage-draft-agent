@@ -14,7 +14,7 @@ Lineage Draft Agent queries DataHub for a selected dataset's properties, schema 
 
 ## How we built it
 
-The project uses DataHub's GraphQL `dataset(urn:)` read path at `/api/graphql`. A small Python client detects GraphQL errors, normalizes schema and lineage, and passes that context to the draft agent. The agent has a deterministic fallback and an optional structured JSON LLM planner. Python unit tests simulate the DataHub API and verify the authenticated request shape and provenance in the output.
+The project uses DataHub's official MCP server via `uvx mcp-server-datahub@latest`. It invokes the documented `get_entities`, `list_schema_fields`, and `get_lineage` tools to normalize real catalog context before drafting. A lightweight GraphQL fallback is included for constrained environments, but the MCP path is used for the project demonstration. The agent has a deterministic fallback and an optional structured JSON LLM planner. Python unit tests simulate the MCP tools and verify the requested context and provenance in the output.
 
 ## Challenges we ran into
 

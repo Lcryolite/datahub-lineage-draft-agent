@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: datahub-lineage-draft-agent
+Version: 0.1.0
+Summary: An evidence-first migration-draft agent backed by DataHub metadata.
+Requires-Python: >=3.11
+License-File: LICENSE
+Provides-Extra: mcp
+Requires-Dist: mcp>=1.9; extra == "mcp"
+Dynamic: license-file

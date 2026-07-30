@@ -20,7 +20,20 @@ DATAHUB_TOKEN=your-token \
   --out migration-review.json
 ```
 
-The client sends a GraphQL `dataset(urn:)` query to `/api/graphql`, reads `schemaMetadata` and `upstream` lineage, and writes a review-only packet. Never commit a token; `.env` is ignored.
+The lightweight GraphQL path sends a `dataset(urn:)` query to `/api/graphql`, reads `schemaMetadata` and `upstream` lineage, and writes a review-only packet. Never commit a token; `.env` is ignored.
+
+### Hackathon MCP path
+
+For the hackathon submission, use the **DataHub MCP path** rather than the standalone GraphQL fallback. It starts DataHub's official open-source server with `uvx mcp-server-datahub@latest` and asks its documented `get_entities`, `list_schema_fields`, and `get_lineage` tools for context.
+
+```bash
+.venv/bin/pip install -e '.[mcp]'
+DATAHUB_GMS_URL=http://localhost:8080 DATAHUB_GMS_TOKEN=your-token \
+.venv/bin/python -m datahub_lineage_agent.cli --mcp \
+  'urn:li:dataset:(urn:li:dataPlatform:postgres,orders,PROD)'
+```
+
+This is a read-only MCP tool sequence. It does not enable the MCP server's mutation tools and does not write or execute a migration.
 
 To use a real LLM planner instead of the deterministic safe fallback, provide an OpenAI-compatible endpoint. The planner receives only the fetched DataHub context and must return a JSON SQL draft beginning with `-- REVIEW REQUIRED`.
 
