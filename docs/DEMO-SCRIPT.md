@@ -48,3 +48,15 @@ bash scripts/render_demo_video.sh
 It creates `.artifacts/lineage-draft-agent-demo-draft.mp4`. The draft is
 explicitly labelled as such and has no voice-over; use it as a starting point,
 then add real narrated footage and review it before any public upload.
+
+For a longer narrated outline based on the same evidence, install the optional
+`edge-tts` package and run:
+
+```bash
+pip install edge-tts
+PYTHONPATH=src python3 scripts/render_narrated_demo.py
+```
+
+It creates `.artifacts/lineage-draft-agent-narrated-demo-draft.mp4`. This is
+also a local draft: review the narration, add any desired live-screen footage,
+and inspect the final file before publishing it.
