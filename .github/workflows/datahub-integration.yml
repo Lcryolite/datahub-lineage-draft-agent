@@ -1,0 +1,23 @@
+name: DataHub MCP Integration
+
+on:
+  workflow_dispatch:
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -e '.[mcp]' acryl-datahub
+      - run: datahub docker quickstart --accept-version-default
+      - run: datahub init --username datahub --password datahub
+      - run: datahub datapack load showcase-ecommerce
+      - run: python scripts/mcp_smoke.py
+        env:
+          DATAHUB_GMS_URL: http://localhost:8080
+      - if: always()
+        run: datahub docker quickstart --stop || true

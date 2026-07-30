@@ -1,7 +1,12 @@
 import json
 import unittest
+from pathlib import Path
+import sys
 
 from datahub_lineage_agent import DataHubGraphQLClient, DataHubMCPContextClient, MigrationAgent
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+from mcp_smoke import first_dataset_urn
 
 URN = "urn:li:dataset:(urn:li:dataPlatform:postgres,orders,PROD)"
 
@@ -46,3 +51,8 @@ class AgentTests(unittest.TestCase):
         self.assertEqual([name for name, _ in calls], ["get_entities", "list_schema_fields", "get_lineage"])
         self.assertIn("order_id", draft.sql)
         self.assertIn("customers", draft.rationale)
+
+    def test_smoke_selector_requires_a_real_dataset_urn(self):
+        self.assertEqual(URN, first_dataset_urn({"searchResults": [{"entity": {"urn": URN}}]}))
+        with self.assertRaises(RuntimeError):
+            first_dataset_urn({"searchResults": []})

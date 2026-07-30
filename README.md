@@ -35,6 +35,8 @@ DATAHUB_GMS_URL=http://localhost:8080 DATAHUB_GMS_TOKEN=your-token \
 
 This is a read-only MCP tool sequence. It does not enable the MCP server's mutation tools and does not write or execute a migration.
 
+The repository also includes a manually triggered GitHub Actions **DataHub MCP Integration** workflow. It starts DataHub's official quickstart with only public showcase data, loads the showcase pack, then runs `scripts/mcp_smoke.py` through the MCP server. It is intentionally not run on every push because the upstream quickstart is a multi-container integration environment.
+
 To use a real LLM planner instead of the deterministic safe fallback, provide an OpenAI-compatible endpoint. The planner receives only the fetched DataHub context and must return a JSON SQL draft beginning with `-- REVIEW REQUIRED`.
 
 ```bash
