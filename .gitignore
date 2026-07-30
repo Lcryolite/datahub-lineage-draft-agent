@@ -1,5 +1,6 @@
 .env
 .venv/
+.artifacts/
 __pycache__/
 *.pyc
 *.egg-info/

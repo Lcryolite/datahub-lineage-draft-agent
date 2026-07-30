@@ -36,3 +36,15 @@ The agent turns DataHub's metadata graph into a reviewable artifact for analytic
 - If using the fixture, label it "offline fixture" in the video.
 - Do not show API tokens, private dataset values, or any executed migration.
 - Record under three minutes and upload publicly only after reviewing the final video.
+
+## Local video draft
+
+For a 37-second visual outline based only on the verified facts, run:
+
+```bash
+bash scripts/render_demo_video.sh
+```
+
+It creates `.artifacts/lineage-draft-agent-demo-draft.mp4`. The draft is
+explicitly labelled as such and has no voice-over; use it as a starting point,
+then add real narrated footage and review it before any public upload.
