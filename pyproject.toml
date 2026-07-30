@@ -9,7 +9,7 @@ description = "An evidence-first migration-draft agent backed by DataHub metadat
 requires-python = ">=3.11"
 
 [project.optional-dependencies]
-mcp = ["mcp>=1.9"]
+mcp = ["mcp>=1.9", "mcp-server-datahub>=0.6,<0.7"]
 
 [tool.setuptools]
 package-dir = {"" = "src"}

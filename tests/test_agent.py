@@ -1,9 +1,11 @@
 import json
+import os
+from unittest.mock import patch
 import unittest
 from pathlib import Path
 import sys
 
-from datahub_lineage_agent import DataHubGraphQLClient, DataHubMCPContextClient, MigrationAgent
+from datahub_lineage_agent import DataHubGraphQLClient, DataHubMCPContextClient, MigrationAgent, StdioDataHubMCP
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 from mcp_smoke import first_dataset_urn
@@ -56,3 +58,9 @@ class AgentTests(unittest.TestCase):
         self.assertEqual(URN, first_dataset_urn({"searchResults": [{"entity": {"urn": URN}}]}))
         with self.assertRaises(RuntimeError):
             first_dataset_urn({"searchResults": []})
+
+    def test_mcp_server_uses_module_when_uvx_is_unavailable(self):
+        with patch("datahub_lineage_agent.mcp.shutil.which", return_value=None):
+            command, args = StdioDataHubMCP.server_command()
+        self.assertEqual(command, sys.executable)
+        self.assertEqual(args, ["-m", "mcp_server_datahub"])

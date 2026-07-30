@@ -5,6 +5,8 @@ from __future__ import annotations
 import asyncio
 import json
 import os
+import shutil
+import sys
 from typing import Any, Callable
 
 from .datahub import DataHubError, DatasetContext
@@ -42,6 +44,16 @@ class StdioDataHubMCP:
     def call_tool(self, name: str, arguments: dict[str, Any]) -> Any:
         return asyncio.run(self._call_tool(name, arguments))
 
+    @staticmethod
+    def server_command() -> tuple[str, list[str]]:
+        """Prefer DataHub's documented uvx command; support ordinary pip installs."""
+        configured = os.environ.get("DATAHUB_MCP_COMMAND")
+        if configured:
+            return configured, []
+        if shutil.which("uvx"):
+            return "uvx", ["mcp-server-datahub@latest"]
+        return sys.executable, ["-m", "mcp_server_datahub"]
+
     async def _call_tool(self, name: str, arguments: dict[str, Any]) -> Any:
         try:
             from mcp import ClientSession, StdioServerParameters
@@ -49,7 +61,8 @@ class StdioDataHubMCP:
         except ImportError as error:
             raise RuntimeError("Install with `pip install -e '.[mcp]'` to use the DataHub MCP path.") from error
         env = {**os.environ, "DATAHUB_GMS_URL": self.gms_url, "DATAHUB_GMS_TOKEN": self.gms_token}
-        params = StdioServerParameters(command="uvx", args=["mcp-server-datahub@latest"], env=env)
+        command, args = self.server_command()
+        params = StdioServerParameters(command=command, args=args, env=env)
         async with stdio_client(params) as (reader, writer):
             async with ClientSession(reader, writer) as session:
                 await session.initialize()

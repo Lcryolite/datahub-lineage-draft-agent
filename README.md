@@ -24,7 +24,7 @@ The lightweight GraphQL path sends a `dataset(urn:)` query to `/api/graphql`, re
 
 ### Hackathon MCP path
 
-For the hackathon submission, use the **DataHub MCP path** rather than the standalone GraphQL fallback. It starts DataHub's official open-source server with `uvx mcp-server-datahub@latest` and asks its documented `get_entities`, `list_schema_fields`, and `get_lineage` tools for context.
+For the hackathon submission, use the **DataHub MCP path** rather than the standalone GraphQL fallback. It starts DataHub's official open-source server with `uvx mcp-server-datahub@latest` when `uvx` is available, or the installed `mcp_server_datahub` module otherwise, and asks its documented `get_entities`, `list_schema_fields`, and `get_lineage` tools for context.
 
 ```bash
 .venv/bin/pip install -e '.[mcp]'
