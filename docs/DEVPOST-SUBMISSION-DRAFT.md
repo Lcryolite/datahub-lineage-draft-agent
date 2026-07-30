@@ -14,7 +14,7 @@ Lineage Draft Agent queries DataHub for a selected dataset's properties, schema 
 
 ## How we built it
 
-The project uses DataHub's official MCP server via `uvx mcp-server-datahub@latest`. It invokes the documented `get_entities`, `list_schema_fields`, and `get_lineage` tools to normalize real catalog context before drafting. A lightweight GraphQL fallback is included for constrained environments, but the MCP path is used for the project demonstration. The agent has a deterministic fallback and an optional structured JSON LLM planner. Python unit tests simulate the MCP tools and verify the requested context and provenance in the output.
+The project uses DataHub's official MCP server, started with documented `uvx mcp-server-datahub@latest` where available or the installed official module in standard Python environments. It invokes the documented `get_entities`, `list_schema_fields`, and `get_lineage` tools to normalize real catalog context before drafting. A lightweight GraphQL fallback is included for constrained environments, but the MCP path is used for the project demonstration. The agent has a deterministic fallback and an optional structured JSON LLM planner. Python unit tests simulate the MCP tools and verify the requested context and provenance in the output.
 
 ## Challenges we ran into
 
@@ -26,6 +26,7 @@ DataHub metadata is useful only when the agent does not quietly replace it with 
 - Provenance-linked review packet.
 - Optional LLM mode with a constrained JSON contract.
 - Public Apache-2.0 repository and passing CI.
+- A passing, clean-runner DataHub quickstart → public showcase → official MCP integration workflow.
 
 ## What's next
 
@@ -34,7 +35,7 @@ Add DataHub write-back of approved review documents through the Python SDK, then
 ## Required final links
 
 - Public repository: `https://github.com/Lcryolite/datahub-lineage-draft-agent`
-- Project link: add a live demo or the repository setup URL after final review.
+- Project link: `https://github.com/Lcryolite/datahub-lineage-draft-agent` (includes setup instructions and a passing integration-run link).
 - Demo video: add a public under-three-minute link after recording.
 
 ## Truthfulness checks before submission

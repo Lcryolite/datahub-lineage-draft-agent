@@ -37,6 +37,8 @@ This is a read-only MCP tool sequence. It does not enable the MCP server's mutat
 
 The repository also includes a manually triggered GitHub Actions **DataHub MCP Integration** workflow. It starts DataHub's official quickstart with only public showcase data, loads the showcase pack, then runs `scripts/mcp_smoke.py` through the MCP server. It is intentionally not run on every push because the upstream quickstart is a multi-container integration environment.
 
+The latest [end-to-end integration run](https://github.com/Lcryolite/datahub-lineage-draft-agent/actions/runs/30581519213) passed on a clean GitHub runner: it loaded the public showcase pack, waited for DataHub's search index, read a real dataset through the official MCP server, and generated a review-only draft. It did not execute a migration or change catalog metadata.
+
 To use a real LLM planner instead of the deterministic safe fallback, provide an OpenAI-compatible endpoint. The planner receives only the fetched DataHub context and must return a JSON SQL draft beginning with `-- REVIEW REQUIRED`.
 
 ```bash
