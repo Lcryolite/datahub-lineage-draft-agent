@@ -8,7 +8,7 @@ payment, public video upload, or eligibility confirmation exists.
 
 | Item | Evidence |
 | --- | --- |
-| Current local source revision | `881a82183084f48cdb0b6f7089563d03a8ad1bee` (`Record catalog context route in review packets`) |
+| Current public source revision | `e7b1b39` (`Add DataHub submission evidence manifest`) on `master` |
 | Local verification | `PYTHONPATH=src .venv/bin/python -m unittest discover -s tests -v` — 7 tests passed on 2026-07-31 |
 | Source license | `LICENSE` — Apache-2.0 |
 | Submission wording | `docs/DEVPOST-FINAL-FORM.md` |
@@ -31,9 +31,9 @@ payment, public video upload, or eligibility confirmation exists.
   https://github.com/Lcryolite/datahub-lineage-draft-agent/actions/runs/30581519213
 
 The public CI run is evidence for the real DataHub MCP integration described in
-the README. It predates the local `881a821` documentation/output-evidence
-improvement; do not claim that it tested that later local revision until the
-revision is intentionally pushed and its matching CI run is available.
+the README. It predates the later documentation/output-evidence improvements;
+do not claim that it tested the current `e7b1b39` revision unless a matching CI
+run is available.
 
 ## Account-owner final gate
 
